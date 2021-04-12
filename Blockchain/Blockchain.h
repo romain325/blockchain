@@ -9,32 +9,38 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "Transaction.h"
 #include "Block.h"
 
 using namespace std;
 
-class Blockchain {
-private:
-    shared_ptr<vector<Transaction>> mTransactions;
-    vector<shared_ptr<Block>> mChain;
+namespace bc {
+    class Blockchain {
+    private:
+        vector<Transaction> mTransactions;
+        vector<shared_ptr<Block>> mChain;
 
-public:
-    Blockchain();
-    Blockchain(const Blockchain& other) = delete;
-    void operator=(const Blockchain& other) = delete;
+    public:
+        Blockchain();
 
-    /**
-     * Create a new transaction to go into the next mined Block
-     * @param sender Address of sender
-     * @param recipient Address of recipient
-     * @param amount Amount
-     * @return The index of the block holding the transaction
-     */
-    int addTransaction(const Transaction& transaction);
+        Blockchain(const Blockchain &other) = delete;
 
-    shared_ptr<Block> newBlock(unsigned int proof, const string& previousHash = nullptr);
-};
+        void operator=(const Blockchain &other) = delete;
 
+        /**
+         * Create a new transaction to go into the next mined Block
+         * @param sender Address of sender
+         * @param recipient Address of recipient
+         * @param amount Amount
+         * @return The index of the block holding the transaction
+         */
+        int addTransaction(const Transaction &transaction);
+
+        shared_ptr<Block> newBlock(unsigned int proof, const string &previousHash = nullptr);
+
+        shared_ptr<Block> last();
+
+        static std::string getHash(Block* block);
+    };
+}
 
 #endif //BLOCKCHAIN_BLOCKCHAIN_H

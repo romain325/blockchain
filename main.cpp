@@ -2,9 +2,11 @@
 #include <pistache/router.h>
 #include "API/Service/RouterService.h"
 #include "API/RESTController/StatusController.h"
+#include "Blockchain/Blockchain.h"
 
 using namespace Pistache;
 using namespace std;
+using namespace bc;
 
 /*
 struct HelloHandler : public Http::Handler {
@@ -26,9 +28,7 @@ auto setupRouter(){
 
 int main() {
     Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(8080));
-
     Http::Endpoint server(addr);
-
 
     server.init(Pistache::Http::Endpoint::options().threads(1));
     server.setHandler(setupRouter());
