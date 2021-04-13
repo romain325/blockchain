@@ -27,6 +27,7 @@ auto setupRouter(){
 }
 
 int main() {
+    Blockchain blockchain;
     Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(8080));
     Http::Endpoint server(addr);
 

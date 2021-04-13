@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "Transaction.h"
-#include "Blockchain.h"
 
 namespace bc {
     struct Block {
@@ -22,6 +21,8 @@ namespace bc {
         std::vector<Transaction> transactions;
         unsigned int proof;
         std::string previous_hash;
+
+        std::string hash();
     };
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Block, index, timestamp, transactions, proof, previous_hash);

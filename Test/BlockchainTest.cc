@@ -33,5 +33,6 @@ TEST(BlockChainTest, JSONTest){
 TEST(BlockChainTest, SHA256Test){
     Blockchain bc;
     json j = *bc.last();
+    cout << j.dump().c_str() << endl;
     cout << Blockchain::getHash(bc.last().get()) << endl;
 }
