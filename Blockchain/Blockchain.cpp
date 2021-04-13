@@ -39,3 +39,14 @@ shared_ptr<Block> Blockchain::last() {
 std::string Blockchain::getHash(Block* block) {
     return block->hash();
 }
+
+json Blockchain::getAsJson() {
+    vector<Block> copy;
+    for (auto it = this->mChain.begin(); it != mChain.end() ; it++) {
+        copy.push_back(**it);
+    }
+    json j;
+    j["chain"] = copy;
+    j["length"] = this->mChain.size();
+    return j;
+}

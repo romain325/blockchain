@@ -3,6 +3,7 @@
 //
 #include <gtest/gtest.h>
 #include "../Blockchain/Blockchain.h"
+#include "../Blockchain/ProofOfWork.h"
 
 using namespace bc;
 
@@ -20,19 +21,25 @@ TEST(BlockChainTest, NewBlock){
 
 
 TEST(BlockChainTest, JSONTest){
+    Blockchain bc;
     Transaction transaction = {"me","patrick",5};
     Block block(1u,213546lu,std::vector<Transaction>(),2135u,"previousHash");
 
     json j = transaction;
     json j2 = block;
+    json j3 = bc.getAsJson();
     std::cout << j << std::endl;
     std::cout << j2 << std::endl;
+    std::cout << j3 << std::endl;
 }
-
 
 TEST(BlockChainTest, SHA256Test){
     Blockchain bc;
     json j = *bc.last();
     cout << j.dump().c_str() << endl;
     cout << Blockchain::getHash(bc.last().get()) << endl;
+}
+
+TEST(BlockChainTest, ProofTest){
+    ASSERT_FALSE(ProofOfWork::validProof(5,1));
 }

@@ -40,6 +40,8 @@ namespace bc {
         shared_ptr<Block> last();
 
         static std::string getHash(Block* block);
+
+        json getAsJson();
     };
 }
 
