@@ -13,8 +13,8 @@
 namespace bc {
     struct Block {
         Block() = default;
-        Block(unsigned int index, unsigned long timestamp, std::vector<Transaction> transactions, unsigned int proof,std::string previousHash)
-                : index(index), timestamp(timestamp), transactions(std::move(transactions)), proof(proof), previous_hash(std::move(previousHash)) {}
+        Block(unsigned int index, unsigned long timestamp, std::vector<Transaction> transactions, std::string previousHash)
+                : index(index), timestamp(timestamp), transactions(std::move(transactions)), proof(0), previous_hash(std::move(previousHash)) {}
 
         unsigned int index;
         unsigned long timestamp;

@@ -18,12 +18,7 @@ void ChainController::chainInfos(const Rest::Request& req, Http::ResponseWriter 
 }
 
 void ChainController::mine(const Rest::Request& req, Http::ResponseWriter rep) {
-    int lastProof = blockchain.last()->proof;
-    int proof = ProofOfWork::proofOfWork(lastProof);
-
-    blockchain.addTransaction(bc::Transaction("0", ProofOfWork::getUuid(), 1));
-
-    shared_ptr<bc::Block> block = blockchain.newBlock(proof, blockchain.getHash(blockchain.last().get()));
+    auto block = blockchain.mine();
 
     json resp;
     resp["message"] = "Block Forged";

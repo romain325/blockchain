@@ -11,33 +11,17 @@
 
 using namespace macaron;
 
-unsigned int ProofOfWork::DIFFICULTY = 4;
+unsigned int ProofOfWork::DIFFICULTY = 3;
 
-std::string ProofOfWork::hash(int lastproof, int proof) {
-    std::string j = Base64::Encode(std::to_string(lastproof) + std::to_string(proof));
-    unsigned char hash[SHA512_DIGEST_LENGTH];
-    char result[128];
-
-    SHA512(reinterpret_cast<const unsigned char*>(j.c_str()), strlen(j.c_str()), hash);
-
-    for(int i = 0; i < SHA512_DIGEST_LENGTH; i++){
-        sprintf(result + (i * 2), "%02x", hash[i]);
+void ProofOfWork::proofOfWork(std::shared_ptr<bc::Block> block) {
+    while (!ProofOfWork::validProof(block->hash())){
+        block->proof++;
     }
-    return std::string(result);
 }
 
-int ProofOfWork::proofOfWork(int lastproof) {
-    int proof = 0;
-    while (!ProofOfWork::validProof(lastproof,proof)){
-        proof++;
-    }
-    return proof;
-}
-
-bool ProofOfWork::validProof(int lastproof, int proof) {
-    std::string hash = ProofOfWork::hash(lastproof,proof);
-    for (int i = 1; i < ProofOfWork::DIFFICULTY +1; i++) {
-        if(hash[hash.size() - i] != '0') return false;
+bool ProofOfWork::validProof(std::string hash) {
+    for (int i = 0; i < ProofOfWork::DIFFICULTY; i++) {
+        if(hash[i] != '6') return false;
     }
     return true;
 }

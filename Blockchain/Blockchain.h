@@ -35,9 +35,11 @@ namespace bc {
          */
         int addTransaction(const Transaction &transaction);
 
-        shared_ptr<Block> newBlock(unsigned int proof, const string &previousHash = nullptr);
+        shared_ptr<Block> newBlock(const string &previousHash = nullptr);
 
         shared_ptr<Block> last();
+
+        shared_ptr<Block> mine();
 
         static std::string getHash(Block* block);
 

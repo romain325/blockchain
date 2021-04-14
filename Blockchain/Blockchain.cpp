@@ -3,7 +3,9 @@
 //
 
 #include "Blockchain.h"
+#include "ProofOfWork.h"
 #include <iostream>
+#include <utility>
 using namespace bc;
 
 int Blockchain::addTransaction(const Transaction& transaction) {
@@ -12,13 +14,12 @@ int Blockchain::addTransaction(const Transaction& transaction) {
 }
 
 
-shared_ptr<Block> Blockchain::newBlock(unsigned int proof, const string& previousHash) {
+shared_ptr<Block> Blockchain::newBlock(const string& previousHash) {
     auto block = make_shared<Block>(
-            this->mChain.size() +1,
+            this->mChain.size(),
             time(nullptr),
             this->mTransactions,
-            proof,
-            previousHash.empty() ? previousHash : "test"
+            previousHash.empty() ? "666" : previousHash
     );
 
     this->mTransactions.clear();
@@ -27,7 +28,10 @@ shared_ptr<Block> Blockchain::newBlock(unsigned int proof, const string& previou
 }
 
 Blockchain::Blockchain() {
-    this->newBlock(100,"1");
+    auto genesis = make_shared<Block>(0u,666ul,std::vector<Transaction>(), "666");
+    ProofOfWork::proofOfWork(genesis);
+
+    this->mChain.push_back(genesis);
 }
 
 
@@ -49,4 +53,11 @@ json Blockchain::getAsJson() {
     j["chain"] = copy;
     j["length"] = this->mChain.size();
     return j;
+}
+
+shared_ptr<Block> Blockchain::mine() {
+    this->addTransaction(bc::Transaction("666", ProofOfWork::getUuid(), 1));
+    auto block = this->newBlock(this->last()->hash());
+    ProofOfWork::proofOfWork(block);
+    return block;
 }

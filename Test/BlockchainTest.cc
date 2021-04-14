@@ -15,7 +15,7 @@ TEST(BlockChainTest, AddTransaction){
 
 TEST(BlockChainTest, NewBlock){
     Blockchain chain;
-    auto block = chain.newBlock(200,"12");
+    auto block = chain.newBlock("12");
     ASSERT_EQ(block->proof,200) << "Proof unexact";
 }
 
@@ -23,7 +23,7 @@ TEST(BlockChainTest, NewBlock){
 TEST(BlockChainTest, JSONTest){
     Blockchain bc;
     Transaction transaction = {"me","patrick",5};
-    Block block(1u,213546lu,std::vector<Transaction>(),2135u,"previousHash");
+    Block block(1u,213546lu,std::vector<Transaction>(),"previousHash");
 
     json j = transaction;
     json j2 = block;
@@ -37,9 +37,18 @@ TEST(BlockChainTest, SHA256Test){
     Blockchain bc;
     json j = *bc.last();
     cout << j.dump().c_str() << endl;
-    cout << Blockchain::getHash(bc.last().get()) << endl;
+    cout << bc.last()->hash() << endl;
 }
 
 TEST(BlockChainTest, ProofTest){
-    ASSERT_FALSE(ProofOfWork::validProof(5,1));
+    auto block = make_shared<Block>(1u,213546lu,std::vector<Transaction>(),"previousHash");
+    ProofOfWork::proofOfWork(block);
+    for (int i = 0; i < ProofOfWork::DIFFICULTY; ++i) {
+        ASSERT_TRUE(block->hash()[i] == '6');
+    }
+}
+
+TEST(BlockChainTest, GenesisBlock){
+    Blockchain bc;
+    ASSERT_TRUE(ProofOfWork::validProof(bc.last()->hash()));
 }

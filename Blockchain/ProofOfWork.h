@@ -7,19 +7,16 @@
 
 
 #include <string>
+#include "Block.h"
 
 struct ProofOfWork {
-    static std::string getUuid();
 
-    static bool validProof(int lastproof, int proof);
-
-private:
     static unsigned int DIFFICULTY;
-    static std::string hash(int lastproof, int proof);
 
 public:
-    static int proofOfWork(int lastproof);
-
+    static void proofOfWork(std::shared_ptr<bc::Block> block);
+    static std::string getUuid();
+    static bool validProof(std::string hash);
 };
 
 
