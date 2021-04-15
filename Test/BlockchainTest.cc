@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "../Blockchain/Blockchain.h"
 #include "../Blockchain/ProofOfWork.h"
+#include "../API/Utils/Uri.h"
 
 using namespace bc;
 
@@ -51,4 +52,28 @@ TEST(BlockChainTest, ProofTest){
 TEST(BlockChainTest, GenesisBlock){
     Blockchain bc;
     ASSERT_TRUE(ProofOfWork::validProof(bc.last()->hash()));
+}
+
+TEST(UtilsTest, URIParser){
+    Uri u[] {
+            Uri::Parse(L"http://localhost:80/foo.html?&q=1:2:3"),
+            Uri::Parse(L"https://localhost:80/foo.html?&q=1"),
+            Uri::Parse(L"localhost/foo"),
+            Uri::Parse(L"https://localhost/foo"),
+            Uri::Parse(L"localhost:8080"),
+            Uri::Parse(L"localhost?&foo=1"),
+            Uri::Parse(L"localhost?&foo=1:2:3")
+    };
+
+    for(int i = 0; i < 7; i++){
+        cout << u[i].Protocol << u[i].Host << u[i].Port << u[i].Path << u[i].QueryString <<endl;
+        ASSERT_EQ(u[i].Host, "localhost");
+    }
+}
+
+TEST(BlockChainTest, ChainSerialization){
+    const json data = Blockchain().getAsJson();
+    shared_ptr<Block> b = Blockchain::getFromJson(data["chain"])[0];
+    cout << b->previous_hash << endl;
+    cout << b->index << " " << b->hash() << b->timestamp << endl;
 }

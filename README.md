@@ -4,3 +4,4 @@
 
 - Pistache (Used for REST API)
 - json (JSON Serialization): https://github.com/nlohmann/json
+- HTTPRequest: https://github.com/elnormous/HTTPRequest

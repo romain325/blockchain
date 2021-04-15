@@ -25,13 +25,13 @@ pkg_check_modules(Pistache REQUIRED IMPORTED_TARGET libpistache)
 
 find_package(OpenSSL REQUIRED)
 
-add_executable(${PROJECT_NAME} main.cpp Utils/json.hpp API/Service/RouterService.cpp API/Service/RouterService.h API/RESTController/RestController.cpp API/RESTController/RestController.h API/RESTController/StatusController.cpp API/RESTController/StatusController.h Blockchain/Blockchain.cpp Blockchain/Blockchain.h Blockchain/Block.h Blockchain/Transaction.h Blockchain/Block.cpp Blockchain/ProofOfWork.cpp Blockchain/ProofOfWork.h Utils/base64.h API/RESTController/blockchain_api/ChainController.cpp API/RESTController/blockchain_api/ChainController.h API/RESTController/blockchain_api/TransactionController.cpp API/RESTController/blockchain_api/TransactionController.h)
+add_executable(${PROJECT_NAME} main.cpp Utils/json.hpp API/Service/RouterService.cpp API/Service/RouterService.h API/RESTController/RestController.cpp API/RESTController/RestController.h API/RESTController/StatusController.cpp API/RESTController/StatusController.h Blockchain/Blockchain.cpp Blockchain/Blockchain.h Blockchain/Block.h Blockchain/Transaction.h Blockchain/Block.cpp Blockchain/ProofOfWork.cpp Blockchain/ProofOfWork.h Utils/base64.h API/RESTController/blockchain_api/ChainController.cpp API/RESTController/blockchain_api/ChainController.h API/RESTController/blockchain_api/TransactionController.cpp API/RESTController/blockchain_api/TransactionController.h Blockchain/Node.cpp Blockchain/Node.h API/Utils/Uri.h API/Utils/HTTPRequest.hpp)
 target_link_libraries(${PROJECT_NAME} PkgConfig::Pistache ${OPENSSL_LIBRARIES})
 
 
 # Testing exec
 enable_testing()
-add_executable(MainTesting Utils/json.hpp Test/HelloTest.cc Test/BlockchainTest.cc Blockchain/Blockchain.h Blockchain/Blockchain.cpp Blockchain/Block.h Blockchain/Transaction.h Blockchain/Block.cpp Blockchain/ProofOfWork.cpp Blockchain/ProofOfWork.h Utils/base64.h)
+add_executable(MainTesting Utils/json.hpp Test/HelloTest.cc Test/BlockchainTest.cc Blockchain/Blockchain.h Blockchain/Blockchain.cpp Blockchain/Block.h Blockchain/Transaction.h Blockchain/Block.cpp Blockchain/ProofOfWork.cpp Blockchain/ProofOfWork.h Utils/base64.h Blockchain/Node.cpp Blockchain/Node.h API/Utils/Uri.h)
 target_link_libraries(MainTesting gtest_main ${OPENSSL_LIBRARIES})
 include(GoogleTest)
 gtest_discover_tests(MainTesting)

@@ -9,7 +9,10 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <unordered_set>
 #include "Block.h"
+#include "Node.h"
+#include "../API/Utils/Uri.h"
 
 using namespace std;
 
@@ -18,6 +21,7 @@ namespace bc {
     private:
         vector<Transaction> mTransactions;
         vector<shared_ptr<Block>> mChain;
+        unordered_set<Node> mNodes;
 
     public:
         Blockchain();
@@ -25,6 +29,8 @@ namespace bc {
         Blockchain(const Blockchain &other) = delete;
 
         void operator=(const Blockchain &other) = delete;
+
+        shared_ptr<Block> operator[](int i);
 
         /**
          * Create a new transaction to go into the next mined Block
@@ -41,9 +47,18 @@ namespace bc {
 
         shared_ptr<Block> mine();
 
-        static std::string getHash(Block* block);
+        void registerNode(const Uri& node_address);
+
+        /**
+         * Keep the longest chain of the nodes
+         * @return has been replaced
+         */
+        void consensusAlgorithm();
+
+        static bool isChainValid(Blockchain& chain);
 
         json getAsJson();
+        static vector<shared_ptr<Block>> getFromJson(json data);
     };
 }
 
