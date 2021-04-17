@@ -6,9 +6,7 @@
 
 #include <utility>
 
-Node::Node(std::string host) : mHost(std::move(host)) {}
-
-bool Node::operator==(const Node &node) const {
+bool bc::Node::operator==(const Node &node) const {
     return std::hash<Node>()(*this) == std::hash<Node>()(node);
 }
 

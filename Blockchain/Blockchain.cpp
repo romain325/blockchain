@@ -67,8 +67,8 @@ shared_ptr<Block> Blockchain::mine() {
     return block;
 }
 
-void Blockchain::registerNode(const Uri& node_address) {
-    this->mNodes.insert(Node(node_address.Host));
+void Blockchain::registerNode(const string & node_address) {
+    this->mNodes.insert(Node(node_address));
 }
 
 bool Blockchain::isChainValid(Blockchain &chain) {

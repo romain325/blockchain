@@ -9,22 +9,27 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include "../Utils/json.hpp"
+using json = nlohmann::json;
 
-class Node {
-private:
-    std::string mHost;
-public:
-    Node() = default;
-    Node(const Node& node) =default;
-    Node(std::string host);
-    std::string getHost() const {return this->mHost;};
-    bool operator==(const Node& node) const;
+namespace bc {
+    class Node {
+    public:
+        std::string mHost;
 
-};
+        Node() = default;
+        Node(const Node &node) = default;
 
+        explicit Node(std::string host) : mHost(std::move(host)) {};
+        std::string getHost() const { return this->mHost; };
+        bool operator==(const Node &node) const;
+    };
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Node, mHost);
+
+}
 namespace std {
-    template <> struct hash<Node>{
-        size_t operator()(const Node& node) const
+    template <> struct hash<bc::Node>{
+        size_t operator()(const bc::Node& node) const
         {
             return std::hash<std::string>()(node.getHost());
         }

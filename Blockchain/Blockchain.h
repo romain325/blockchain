@@ -47,7 +47,7 @@ namespace bc {
 
         shared_ptr<Block> mine();
 
-        void registerNode(const Uri& node_address);
+        void registerNode(const string& node_address);
 
         /**
          * Keep the longest chain of the nodes

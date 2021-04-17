@@ -5,6 +5,7 @@
 #include "Blockchain/Blockchain.h"
 #include "API/RESTController/blockchain_api/ChainController.h"
 #include "API/RESTController/blockchain_api/TransactionController.h"
+#include "API/RESTController/blockchain_api/NodesController.h"
 
 using namespace Pistache;
 using namespace std;
@@ -18,10 +19,12 @@ auto setupRouter(){
     StatusController status;
     ChainController chainController;
     TransactionController transactionController;
+    NodesController nodesController;
 
     routerService.addController(status);
     routerService.addController(chainController);
     routerService.addController(transactionController);
+    routerService.addController(nodesController);
 
     return routerService.getHandler();
 }
